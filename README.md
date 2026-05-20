@@ -1,6 +1,6 @@
-﻿# Repo File Index & Comments
+﻿# Comments
 
-Annotated index of every non-code file committed. One comment per file.
+Comments for each result file.
 
 ---
 
