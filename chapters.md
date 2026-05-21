@@ -16,28 +16,29 @@
 *   **3.3 The Gap:** Point out that while interpretability and compression are heavily researched, using interpretability to *guide* compression is a under-explored field.
 
 #### **Chapter 4: Circuit Extraction & Evaluation (Methodology Part 1)**
-*   **4.1 Task Definition:** What specific task are these circuits for? (e.g., Indirect Object Identification, Subject-Verb Agreement, Math reasoning?).
+*   **4.1 Task Definition:** What specific task are these circuits for?
 *   **4.2 Subgraph Isolation:** Detail on how I implemented EAP-IG and LRP to find the edges.
 *   **4.3 Circuit Quality Metrics:** 
     *   *Faithfulness:* Define KL-Divergence and Logit Difference mathematically.
     *   *Accuracy:* How do we measure the task accuracy for the base model and the circuits.
 
 #### **Chapter 5: Circuit-Aware Compression (Methodology Part 2)**
-*   **5.1 Circuit-Locked Pruning:** Explain the algorithm. How do you generate the binary mask that protects the subgraph? Provide the formula for how $L_2$ pruning is applied *only* to the unmasked weights.
-*   **5.2 Mixed-Precision Task-Circuit Quantization (TCQ):** Explain the memory management. How do you keep the subgraph at FP16/BF16 while routing the rest of the model through INT4 PTQ? (Maybe discuss some details of the technical implementation).
+*   **5.1 Circuit-Locked Pruning:** Explain the algorithm. How do you generate the binary mask that protects the subgraph?
+*   **5.2 Mixed-Precision Task-Circuit Quantization (TCQ):** More details on the circuit-guided quantization method. How do you keep the subgraph at FP16/BF16 while routing the rest of the model through INT4 ? (Maybe discuss some details of the technical implementation).
 
 #### **Chapter 6: Experimental Setup**
-*   **6.1 Models Selected:** Which SLMs are you using? (e.g., Phi-3, Qwen-1.5-0.5B, TinyLlama).
+*   **6.1 Models Selected:** Which SLMs are you using? 
 *   **6.2 Datasets:** What prompt datasets were used to trigger the task-specific circuits?
 *   **6.3 Baselines for Comparison:** Define your baselines clearly:
     *   Baseline 1: Standard $L_2$ Magnitude Pruning (no circuit locking).
     *   Baseline 2: Uniform INT4/INT8 Quantization.
+    *   Baseline 3: Random Mixed-Precision quantization.
 *   **6.4 Hardware & Environment:** GPU, RAM specs etc.
 
 #### **Chapter 7: Results and Comparative Analysis**
-*   **7.1 Circuit Extraction Results:** Show that your EAP-IG/LRP methods successfully found faithful, minimal circuits (include visualizations of the graphs/attention heads if possible).
-*   **7.2 Pruning results:** Circuit-Locked Pruning vs. Standard $L_2$ Pruning. Show graphs comparing sparsity levels (%) against accuracy/Logit Diff. *Hypothesis to prove: Your method retains accuracy at much higher sparsity levels.*
-*   **7.3 Quantization results:** TCQ vs. Uniform INT4. Show the trade-off. Did TCQ maintain near-FP16 accuracy while achieving near-INT4 memory footprints?
+*   **7.1 Circuit Extraction Results:** Discuss the results and details of the circuit extraction methods (include visualizations of the graphs/attention heads if possible).
+*   **7.2 Pruning results:** Circuit-Locked Pruning vs. Standard $L_2$ Pruning. Show graphs comparing sparsity levels (%) against accuracy/Logit Diff.
+*   **7.3 Quantization results:** TCQ vs. Uniform INT4 vs Random. Show the trade-off. Did TCQ maintain near-FP16 accuracy while achieving near-INT4 memory footprints?
 
 #### **Chapter 8: Conclusions and Future Work**
 *   Summarize how preserving mechanistic structures allows for "smarter, not harder" compression.
