@@ -53,3 +53,17 @@ Jaccard similarity of discovered circuits before vs. after INT8/INT4 quantizatio
 **08_transfer_comparison.pdf**
 Cross-scale transfer results: pruning and quantization strategies applied to Gemma-3-1B using circuits transferred from the 270m model. Transfer pruning fails (KL 12–23); transfer quantization succeeds (accuracy 0.95 for arithmetic, 0.86 for IOI, faithfulness ~1.0).
 
+
+## Term Definitions
+
+*   **IOI (Indirect Object Identification)**: A linguistic task used to evaluate a model's ability to identify the indirect object in a sentence (e.g., predicting "Mary" in "John gave a book to Mary").
+*   **EAP-IG (Edge Attribution Patching with Integrated Gradients)**: An interpretability method that identifies critical connections within a model's computational graph by analyzing gradient attributions.
+*   **LRP (Layer-wise Relevance Propagation)**: A framework that attributes a neural network's final output to its individual internal components or input features.
+*   **Jaccard Similarity**: A statistical metric used to measure the overlap between two sets, calculated by dividing the size of their intersection by the size of their union.
+*   **MLP (Multi-Layer Perceptron) Layers**: The feed-forward neural network layers within a transformer block that process token features independently.
+*   **KL Divergence (Kullback-Leibler Divergence)**: A statistical measure of how much one probability distribution (such as a pruned model's output) deviates from a reference distribution (the original model's output).
+*   **Sparsity**: The proportion of parameters or components in a neural network that have been deactivated or pruned.
+*   **Perplexity**: A metric indicating how well a probability model predicts a sample, where lower values correspond to more confident and accurate language generation.
+*   **Quantization (INT8/INT4)**: The process of reducing the numerical precision of a model's weights and activations to compress the model and speed up inference.
+*   **Faithfulness**: A metric that evaluates how closely the performance or behavior of a pruned sub-network matches that of the original full model.
+
