@@ -53,6 +53,14 @@ Jaccard similarity of discovered circuits before vs. after INT8/INT4 quantizatio
 **08_transfer_comparison.pdf**
 Cross-scale transfer results: pruning and quantization strategies applied to Gemma-3-1B using circuits transferred from the 270m model. Transfer pruning fails (KL 12–23); transfer quantization succeeds (accuracy 0.95 for arithmetic, 0.86 for IOI, faithfulness ~1.0).
 
+### gemma3/visualizations/circuits — PDFs
+
+Each circuit is rendered as a layered DAG with `networkx`:
+
+* **rows** = transformer layers (L0 bottom → output top)
+* **nodes per layer** = attention heads + 1 aggregated MLP node (MLP score = signed mean of neuron attributions)
+* **node size** ∝ |attribution|, **color** = sign (red positive, blue negative)
+* **top-K components** (25 for gemma ) get black outlines + labels and their inter-layer residual edges are highlighted; remaining edges drawn faint as backdrop
 
 ## Term Definitions
 
