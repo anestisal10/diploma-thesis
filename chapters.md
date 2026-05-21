@@ -41,4 +41,4 @@
 
 #### **Chapter 8: Conclusions and Future Work**
 *   Summarize how preserving mechanistic structures allows for "smarter, not harder" compression.
-*   **Future Work:** 
+*   **Future Work** 
