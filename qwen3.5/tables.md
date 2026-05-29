@@ -1,6 +1,6 @@
 # 🎓 Thesis Results Tables — Qwen3.5-0.8B
 
-This document contains the consolidated numeric tables compiled from the raw experiment logs, replacing low-density or flat visualizations.
+This document contains the consolidated numeric tables compiled from the raw experiment logs.
 
 ## Table 1a: Task Accuracy under Quantization
 This table lists exact-match task accuracies under uniform and mixed quantization, compared with the unquantized baseline.
@@ -33,7 +33,7 @@ This table consolidates exact-match task accuracies at varying sparsities for di
 |--- | --- | --- | --- | --- | --- |
 
 ## Table 2: Circuit Structural Disagreement (EAP-IG vs. LRP)
-This table lists the structural overlap at the top-10 components, replacing `01_circuit_disagreement_jaccard.pdf`.
+This table lists the structural overlap at the top-10 components.
 
 | Task | Attention Heads Jaccard | MLP Neurons Jaccard | Shared Attention Heads |
 | :--- | :---: | :---: | :--- |
@@ -105,7 +105,7 @@ This matrix compares task accuracy, faithfulness, and perplexity across quantiza
 |--- | --- | --- | --- | --- | --- |
 
 ## Table 5: Discovered Circuit Stability under Quantization (Jaccard Similarity)
-This table summarizes how much weight quantization shifts the discovered circuits, replacing `07_quantized_circuit_stability.pdf`.
+This table summarizes how much weight quantization shifts the discovered circuits.
 
 | Task | Method | Attention Jaccard (INT8) | Attention Jaccard (INT4) | MLP Jaccard (INT8) | MLP Jaccard (INT4) |
 | :--- | :--- | :---: | :---: | :---: | :---: |
@@ -120,7 +120,7 @@ This table summarizes how much weight quantization shifts the discovered circuit
 |--- | --- | --- | --- | --- | --- |
 
 ## Table 6: Cross-Scale Circuit Transfer Performance (270m → 1B / 2B)
-This table summarizes transfer pruning and transfer quantization results, replacing `08_transfer_comparison.pdf`.
+This table summarizes transfer pruning and transfer quantization results.
 
 ### Part A: Transfer Pruning (Fails)
 | Task | Strategy | Sparsity | Accuracy | KL Divergence | Perplexity |
@@ -168,13 +168,3 @@ This table summarizes transfer pruning and transfer quantization results, replac
 | Tool Selection | Random Mixed | 0.850 | - | 15.8 | 15.9 |
 | Tool Selection | Mixed | 0.850 | - | 15.8 | 15.9 |
 |--- | --- | --- | --- | --- | --- |
-
-## Table 7: Attention Head Attribution vs. Weight Geometry Correlations
-This table lists the Spearman correlation ($ho$) and Pearson correlation ($r$) between attribution scores and geometric properties, replacing `plot11_attribution_geometry_corr.png`.
-
-| Weight-Space Property | Spearman's $\rho$ | Pearson's $r$ | p-value | Significance |
-| :--- | :---: | :---: | :---: | :--- |
-| Effective Rank | *Pending* | *Pending* | *Pending* | Weight analysis not run for Qwen |
-| Spectral Norm | *Pending* | *Pending* | *Pending* | Weight analysis not run for Qwen |
-| Projectivity | *Pending* | *Pending* | *Pending* | Weight analysis not run for Qwen |
-| Top-1 Concentration | *Pending* | *Pending* | *Pending* | Weight analysis not run for Qwen |
