@@ -4,13 +4,13 @@
 *   **The Solution:** Mechanistic Interpretability allows us to find the "circuits" that matter. We can protect these circuits while aggressively compressing the rest.
 *   **Contributions:** (1) Extracting subgraphs via EAP-IG and LRP. (2) Applying *Circuit-Locked Pruning*. (3) Applying *Mixed-Precision TCQ*. (4) Benchmarking against standard uniform baselines.
 
-#### **Chapter 2: Theoretical Background**
+#### **Chapter 3: Theoretical Background**
 *   **2.1 Large Language Models:** Brief overview of Transformer architecture (Attention, MLPs, Residual Stream).
 *   **2.2 Mechanistic Interpretability:** Define circuits, features, and subgraphs. 
 *   **2.3 Attribution Methods:** Mathematically define **Integrated Gradients (IG)**, **Edge Attribution Patching (EAP)**, and **Layer-wise Relevance Propagation (LRP)**. How do we trace logits back to edges?
 *   **2.4 Model Compression:** The theory of Magnitude Pruning ($L_2$ norms) and Post-Training Quantization (PTQ, FP16 vs INT4).
 
-#### **Chapter 3: Related Work**
+#### **Chapter 2: Related Work**
 *   **3.1 Circuit Extraction in LLMs:** Cite papers like *Towards Automated Circuit Discovery for Mechanistic Interpretability* (Conneau et al. / Anthropic).
 *   **3.2 LLM Compression:** Cite standard pruning and PTQ papers (e.g., *SparseGPT*, *AWQ*, *Wanda*).
 *   **3.3 The Gap:** Point out that while interpretability and compression are heavily researched, using interpretability to *guide* compression is a under-explored field.
@@ -33,7 +33,7 @@
     *   Baseline 1: Standard $L_2$ Magnitude Pruning (no circuit locking).
     *   Baseline 2: Uniform INT4/INT8 Quantization.
     *   Baseline 3: Random Mixed-Precision quantization.
-*   **6.4 Hardware & Environment:** GPU, RAM specs etc.
+*   **6.4 Hardware & Environment:** GPU, RAM specs etc.(μαζι με 6,1)
 
 #### **Chapter 7: Results and Comparative Analysis**
 *   **7.1 Circuit Extraction Results:** Discuss the results and details of the circuit extraction methods (include visualizations of the graphs/attention heads if possible).
