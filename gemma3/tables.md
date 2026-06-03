@@ -7,9 +7,11 @@ This table lists exact-match task accuracies under uniform and mixed quantizatio
 
 | Task | Clean Baseline | Uniform | Random Mixed | Mixed (EAP-IG) | Mixed (LRP) | Mixed (UNION) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| Arithmetic | **0.680** | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
+| Arithmetic | **0.680** | 0.680 | 0.680 | 0.700 | 0.670 | 0.680 |
 | Ioi | **0.863** | 0.863 | 0.860 | 0.863 | 0.853 | 0.874 |
 | Tool Selection | **0.790** | 0.790 | 0.803 | 0.800 | 0.790 | 0.800 |
+
+> **Note (arithmetic correction, 2026-06-02):** The arithmetic quantization row was re-run after fixing a measurement bug in `run_quantization_experiment.py`. The earlier 0.000 accuracies were an artifact of feeding the bare question string (no chat template, no `**Answer:** ` prefix) so the answer digit never appeared at the final token position. With the prompt built correctly, INT8 quantization is essentially lossless for arithmetic accuracy (0.68, matching the clean baseline), consistent with IOI/tool-selection and with the 270m→1B transfer-quantization result. "Random Mixed" uses the union-circuit-sized random protection.
 
 ## Table 1b: Task Accuracy under Pruning
 This table consolidates exact-match task accuracies at varying sparsities for different pruning strategies.
@@ -33,12 +35,12 @@ This table consolidates exact-match task accuracies at varying sparsities for di
 |--- | --- | --- | --- | --- | --- |
 
 ## Table 2: Circuit Structural Disagreement (EAP-IG vs. LRP)
-This table lists the structural overlap at the top-10 components.
+This table lists the structural overlap at the top-10 components, replacing `01_circuit_disagreement_jaccard.pdf`.
 
 | Task | Attention Heads Jaccard | MLP Neurons Jaccard | Shared Attention Heads |
 | :--- | :---: | :---: | :--- |
 | Arithmetic | 0.000 | 0.000 | None |
-| Ioi | 0.053 | 0.000 | L11_H2 |
+| Ioi | 0.053 | 0.000 | L15_H2 |
 | Tool Selection | 0.053 | 0.000 | L11_H2 |
 
 ## Table 3a: Pruning Output Distribution Shift (KL Divergence)
@@ -56,11 +58,13 @@ This table monitors the KL divergence between the unpruned baseline and the prun
 | Ioi | 60% | 21.262 | 14.127 | 12.171 | 6.807 |
 | Ioi | 80% | 20.203 | 12.854 | 33.307 | 8.343 |
 |--- | --- | --- | --- | --- | --- |
-| Tool Selection | 20% | 0.000 | 0.000 | 0.000 | 0.000 |
-| Tool Selection | 40% | 0.000 | 0.000 | 0.000 | 0.000 |
-| Tool Selection | 60% | 0.000 | 0.000 | 0.000 | 0.000 |
-| Tool Selection | 80% | 0.000 | 0.000 | 0.000 | 0.000 |
+| Tool Selection | 20% | N/A | N/A | N/A | N/A |
+| Tool Selection | 40% | N/A | N/A | N/A | N/A |
+| Tool Selection | 60% | N/A | N/A | N/A | N/A |
+| Tool Selection | 80% | N/A | N/A | N/A | N/A |
 |--- | --- | --- | --- | --- | --- |
+
+> **Note (KL not computed for Tool Selection):** Tool-selection is scored via tool-call log-probabilities, not a full next-token distribution over the vocabulary, so `compute_kl_divergence` is skipped for this task in `run_pruning_experiment.py` and the logged value defaults to 0.0. The earlier `0.000` cells did **not** mean "no distribution shift" — the pruned tool-selection model is in fact destroyed (perplexity 10⁶–10¹³, see Table 3b). Use Table 3b (perplexity) as the distribution-shift signal for this task.
 
 ## Table 3b: Pruning Language Capability Impact (Perplexity)
 This table tracks model perplexity under pruning (baseline unpruned perplexity is shown in parentheses next to the task name).
@@ -89,9 +93,9 @@ This matrix compares task accuracy, faithfulness, and perplexity across quantiza
 | Task / Metric | Uniform | Random Mixed | Mixed (EAP-IG) | Mixed (LRP) | Mixed (UNION) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Arithmetic** (Base Ppl: 201.0) | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp; - Accuracy | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
-| &nbsp;&nbsp;&nbsp;&nbsp; - Faithfulness | 0.909 | 1.001 | 0.972 | 1.060 | 1.056 |
-| &nbsp;&nbsp;&nbsp;&nbsp; - Perplexity | 211.6 | 208.8 | 202.4 | 204.3 | 204.8 |
+| &nbsp;&nbsp;&nbsp;&nbsp; - Accuracy | 0.680 | 0.680 | 0.700 | 0.670 | 0.680 |
+| &nbsp;&nbsp;&nbsp;&nbsp; - Faithfulness | 1.024 | 1.003 | 1.013 | 1.019 | 1.001 |
+| &nbsp;&nbsp;&nbsp;&nbsp; - Perplexity | 211.6 | 206.4 | 204.7 | 204.6 | 203.6 |
 |--- | --- | --- | --- | --- | --- |
 | **Ioi** (Base Ppl: 201.0) | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp; - Accuracy | 0.863 | 0.860 | 0.863 | 0.853 | 0.874 |
@@ -104,8 +108,10 @@ This matrix compares task accuracy, faithfulness, and perplexity across quantiza
 | &nbsp;&nbsp;&nbsp;&nbsp; - Perplexity | 463.4 | 476.0 | 479.5 | 469.3 | 484.6 |
 |--- | --- | --- | --- | --- | --- |
 
+> **Note (arithmetic correction, 2026-06-02):** The arithmetic accuracy *and* faithfulness/perplexity values were re-run after the prompt-construction fix (see Table 1a note). The previous arithmetic faithfulness figures (0.909–1.060) were computed on a malformed prompt where the clean baseline logit-difference was actually *below* the corrupted baseline (−0.21 vs +0.08), so the ratio was meaningless; the corrected baselines are clean +12.55 / corrupted −9.96. IOI and Tool Selection rows were already correct (their prompts need no answer prefix) and are unchanged.
+
 ## Table 5: Discovered Circuit Stability under Quantization (Jaccard Similarity)
-This table summarizes how much weight quantization shifts the discovered circuits.
+This table summarizes how much weight quantization shifts the discovered circuits, replacing `07_quantized_circuit_stability.pdf`.
 
 | Task | Method | Attention Jaccard (INT8) | Attention Jaccard (INT4) | MLP Jaccard (INT8) | MLP Jaccard (INT4) |
 | :--- | :--- | :---: | :---: | :---: | :---: |
@@ -120,7 +126,7 @@ This table summarizes how much weight quantization shifts the discovered circuit
 |--- | --- | --- | --- | --- | --- |
 
 ## Table 6: Cross-Scale Circuit Transfer Performance (270m → 1B / 2B)
-This table summarizes transfer pruning and transfer quantization results.
+This table summarizes transfer pruning and transfer quantization results, replacing `08_transfer_comparison.pdf`.
 
 ### Part A: Transfer Pruning (Fails)
 | Task | Strategy | Sparsity | Accuracy | KL Divergence | Perplexity |
@@ -143,3 +149,13 @@ This table summarizes transfer pruning and transfer quantization results.
 | Ioi | Random Mixed | 0.863 | 0.003 | 60.4 | 60.1 |
 | Ioi | Mixed | 0.863 | 0.002 | 60.4 | 60.0 |
 |--- | --- | --- | --- | --- | --- |
+
+## Table 7: Attention Head Attribution vs. Weight Geometry Correlations
+This table lists the Spearman correlation ($ho$) and Pearson correlation ($r$) between attribution scores and geometric properties, replacing `plot11_attribution_geometry_corr.png`.
+
+| Weight-Space Property | Spearman's $\rho$ | Pearson's $r$ | p-value | Significance |
+| :--- | :---: | :---: | :---: | :--- |
+| Effective Rank | 0.237 | 0.210 | 0.045 | Marginally Significant ($p < 0.05$) |
+| Spectral Norm | -0.042 | -0.035 | 0.721 | Not Significant |
+| Projectivity | 0.089 | 0.065 | 0.457 | Not Significant |
+| Top-1 Concentration | 0.012 | 0.009 | 0.920 | Not Significant |
