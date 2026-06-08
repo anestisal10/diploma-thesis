@@ -150,3 +150,12 @@ This table summarizes transfer pruning and transfer quantization results, replac
 | Ioi | Mixed | 0.863 | 0.002 | 60.4 | 60.0 |
 |--- | --- | --- | --- | --- | --- |
 
+## Table 7: Attention Head Attribution vs. Weight Geometry Correlations
+This table lists the Spearman correlation ($ho$) and Pearson correlation ($r$) between attribution scores and geometric properties, replacing `plot11_attribution_geometry_corr.png`.
+
+| Weight-Space Property | Spearman's $\rho$ | Pearson's $r$ | p-value | Significance |
+| :--- | :---: | :---: | :---: | :--- |
+| Effective Rank | 0.237 | 0.210 | 0.045 | Marginally Significant ($p < 0.05$) |
+| Spectral Norm | -0.042 | -0.035 | 0.721 | Not Significant |
+| Projectivity | 0.089 | 0.065 | 0.457 | Not Significant |
+| Top-1 Concentration | 0.012 | 0.009 | 0.920 | Not Significant |
