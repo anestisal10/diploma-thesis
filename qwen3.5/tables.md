@@ -7,7 +7,7 @@ This table lists exact-match task accuracies under uniform and mixed quantizatio
 
 | Task | Clean Baseline | Uniform | Random Mixed | Mixed (EAP-IG) | Mixed (LRP) | Mixed (UNION) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| Arithmetic | **1.000** | 0.990 | 0.990 | 1.000 | 1.000 | 1.000 |
+| Arithmetic | **1.000** | 1.000 | 1.000 | - | - | 1.000 |
 | Ioi | **0.905** | 0.893 | 0.905 | - | - | 0.899 |
 | Tool Selection | **0.760** | 0.710 | 0.730 | - | - | 0.730 |
 
@@ -175,3 +175,12 @@ This table summarizes transfer pruning and transfer quantization results, replac
 | Tool Selection | Mixed | 0.850 | - | 15.8 | 15.9 |
 |--- | --- | --- | --- | --- | --- |
 
+## Table 7: Attention Head Attribution vs. Weight Geometry Correlations
+This table lists the Spearman correlation ($ho$) and Pearson correlation ($r$) between attribution scores and geometric properties, replacing `plot11_attribution_geometry_corr.png`.
+
+| Weight-Space Property | Spearman's $\rho$ | Pearson's $r$ | p-value | Significance |
+| :--- | :---: | :---: | :---: | :--- |
+| Effective Rank | *Pending* | *Pending* | *Pending* | Weight analysis not run for Qwen |
+| Spectral Norm | *Pending* | *Pending* | *Pending* | Weight analysis not run for Qwen |
+| Projectivity | *Pending* | *Pending* | *Pending* | Weight analysis not run for Qwen |
+| Top-1 Concentration | *Pending* | *Pending* | *Pending* | Weight analysis not run for Qwen |
