@@ -12,8 +12,6 @@ This table lists exact-match task accuracies under uniform and mixed quantizatio
 | Ioi | **0.905** | 0.893 | 0.905 | - | - | 0.899 |
 | Tool Selection | **0.760** | 0.710 | 0.730 | - | - | 0.730 |
 
-> **Note (arithmetic correction, 2026-06-02):** The arithmetic quantization row was re-run after fixing the same measurement bug found in the Gemma-3 pipeline. `run_quantization_experiment.py` fed the bare question string (no chat template, no `**Answer:** ` prefix), so the answer digit never appeared at the final token position and global-argmax accuracy was 0.000 by construction. With the prompt built correctly (matching this repo's `run_transfer_compression.py`), INT8 quantization is lossless for arithmetic (1.000, matching the clean baseline and the 0.8B→1B transfer-quantization result). IOI and Tool Selection were unaffected.
-
 ## Table 1b: Task Accuracy under Pruning
 This table consolidates exact-match task accuracies at varying sparsities for different pruning strategies.
 
@@ -65,8 +63,6 @@ This table monitors the KL divergence between the unpruned baseline and the prun
 | Tool Selection | 80% | 80% (0.74 GB) | N/A | N/A | - | - |
 |--- | --- | --- | --- | --- | --- | --- |
 
-> **Note (KL not computed for Tool Selection):** As in the Gemma pipeline, tool-selection is scored via tool-call log-probabilities rather than a full vocabulary distribution, so KL is skipped and logged as 0.0. The pruned tool-selection model is still degraded (see Table 3b perplexity); the earlier `0.000` did not indicate a faithful distribution.
-
 ## Table 3b: Pruning Language Capability Impact (Perplexity)
 This table tracks model perplexity under pruning (baseline unpruned perplexity is shown in parentheses next to the task name).
 
@@ -109,8 +105,6 @@ This matrix compares task accuracy, faithfulness, and perplexity across quantiza
 | &nbsp;&nbsp;&nbsp;&nbsp; - Faithfulness | 1.049 | 1.148 | - | - | 1.136 |
 | &nbsp;&nbsp;&nbsp;&nbsp; - Perplexity | 22.9 | 22.8 | - | - | 22.7 |
 |--- | --- | --- | --- | --- | --- |
-
-> **Note (arithmetic correction, 2026-06-02):** The arithmetic accuracy *and* faithfulness/perplexity values were re-run after the prompt-construction fix (see Table 1a note). The previous arithmetic faithfulness figures (0.533–1.067) were computed on a malformed prompt where the clean and corrupted baseline logit-differences were both near zero and nearly equal (+0.39 vs +0.40), making the ratio meaningless; the corrected baselines are clean +7.29 / corrupted −6.93. IOI and Tool Selection rows were already correct and are unchanged.
 
 ## Table 5: Discovered Circuit Stability under Quantization (Jaccard Similarity)
 This table summarizes how much weight quantization shifts the discovered circuits, replacing `07_quantized_circuit_stability.pdf`.
